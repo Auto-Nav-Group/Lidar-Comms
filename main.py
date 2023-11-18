@@ -1,25 +1,29 @@
-"""Holds the conversions for Lidar communications (encoding and decoding)"""
+def convert_characters_to_decimal(characters):
+    binary_combined = ""
 
-def process_characters(char_list):
-    """Process characters in the char_list and return the decimal value"""
-    combined = []
-    for char in char_list:
-        print(char)
-        hex_val = hex(ord(char))
-        # hex_val = hex_val[2:]
-        print(hex_val)
-        # subtracted_hex = int(hex_val) - 30
-        # print(subtracted_hex)
-        # binary = bin(subtracted_hex)
-        # binary = binary[2:]
-        # print(binary)
-        # decimal = int(binary, 2)
-        # print(decimal)
-        # combined.append(str(decimal))
+    for char in characters:
+        hex_value = hex(ord(char))[2:] 
+        hex_subtracted = hex(int(hex_value, 16) - int('30', 16))[2:]
+        binary = bin(int(hex_subtracted, 16))[2:].zfill(6)  
+        binary_combined += binary
 
-    combined_string = "".join(combined)
-    print(combined_string)
+    decimal_equivalent = int(binary_combined, 2)
 
+    return decimal_equivalent
 
-process_characters(['m', 'D'])
-# TODO: fix the character thing not working with certains ones
+characters = ['m', '2', '@', '0']
+result = convert_characters_to_decimal(characters)
+print(result)
+
+def convert_decimal_to_character(decimal):
+    binary = bin(decimal)[2:].zfill(24)  
+    binary_segments = [binary[i:i+6] for i in range(0, len(binary), 6)]  
+    hex_values = [hex(int(segment, 2))[2:] for segment in binary_segments]  
+    hex_added = [hex(int(hex_value, 16) + int('30', 16))[2:] for hex_value in hex_values]  
+    characters = [chr(int(hex_value, 16)) for hex_value in hex_added]  
+
+    return ''.join(characters)  
+
+decimal = 5432
+result = convert_decimal_to_character(decimal)
+print(result)
