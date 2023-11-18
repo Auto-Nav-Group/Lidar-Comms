@@ -1,4 +1,3 @@
-import serial
 def convert_characters_to_decimal(characters):
     binary_combined = ""
 
@@ -27,23 +26,3 @@ def convert_decimal_to_character(decimal):
 
 decimal = 5432
 result = convert_decimal_to_character(decimal)
-
-def send_bytes_through_usb(string, port, baudrate):
-    try:
-        ser = serial.Serial(port, baudrate)
-        
-        bytes_to_send = string.encode()
-        
-        ser.write(bytes_to_send)
-        
-        ser.close()
-        
-        print("Bytes sent successfully!")
-    except Exception as e:
-        print("Error sending bytes:", str(e))
-
-string_to_send = convert_characters_to_decimal(['m', '2', '@', '0'])
-port_name = "COM1"  
-baudrate = 9600 
-
-send_bytes_through_usb(string_to_send, port_name, baudrate)
